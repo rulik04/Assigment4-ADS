@@ -76,11 +76,16 @@ public class BST<K extends Comparable<K>, V> implements Iterable<KeyAndValue<K, 
             } else if (node.right == null) {
                 return node.left;
             } else {
+                Node newNode;
                 if (size(node.left) > size(node.right)) {
-                    node.key = RightMin(node.right);
+                    newNode = RightMin(node.right);
+                    node.key = newNode.key;
+                    node.value = newNode.value;;
                     node.right = delete(node.right, node.key);
                 } else {
-                    node.key = LeftMax(node.left);
+                    newNode = LeftMax(node.left);
+                    node.key = newNode.key;
+                    node.value = newNode.value;
                     node.left = delete(node.left, node.key);
                 }
             }
@@ -90,24 +95,20 @@ public class BST<K extends Comparable<K>, V> implements Iterable<KeyAndValue<K, 
         return node;
     }
 
-    private K RightMin(Node node) {
-        K min = node.key;
+    private Node RightMin(Node node) {
         while (node.left != null) {
-            min = node.left.key;
             node = node.left;
         }
 
-        return min;
+        return node;
     }
 
-    private K LeftMax(Node node) {
-        K max = node.key;
+    private Node LeftMax(Node node) {
         while (node.right != null) {
-            max = node.right.key;
             node = node.right;
         }
 
-        return max;
+        return node;
     }
 
     private int size(Node node) {
